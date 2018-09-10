@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8">
+    <title>
+      Formularz
+    </title>
+    <script>
+      function request() {
+        //Utworzenie obiektu reprezentującego żądanie do serwera WWW - patrz https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest
+        var xhr = new XMLHttpRequest(); 
+ 
+        //Rejestracja funkcji (użytkownika), która będzie przetwarzać odpowiedź otrzymaną od serwera
+        xhr.onreadystatechange = () => response(xhr); 
+        
+        //Wykonanie (asynchronicznego) zapytania do serwera WWW
+        xhr.open('GET', 'localhost:8082', false); 
+        xhr.send(null);
+        console.log("w")
+        //Przykłady użycia powyższych metod - patrz https://www.w3schools.com/xml/ajax_xmlhttprequest_send.asp
+      }
+ 
+      /***********************************************/
+      /* Funkcja przetwarzająca odpowiedź od serwera */
+      /***********************************************/
+      function response(xhr){
+        try { 
+          if (xhr.readyState == XMLHttpRequest.DONE) { //Jeżeli odpowiedź jest gotowa 
+            if (xhr.status == 200){                    //Jeżeli żądanie było prawidłowe
+ 
+               //Jeżeli odbierane dane są zwykłym tekstem lub dokumentem JSON, to użyj poniższego kodu
+               var received_data = xhr.responseText; //Odbierz odpowiedź w postaci napisu
+               window.alert(received_data);          //i wyświetl go
+ 
+               //Jeżeli odbierane dane są dokumentem HTML lub XML, to użyj poniższego kodu
+               //var xmlDoc = xhr.responseXML; //Odbierz odpowiedź w postaci obiektu 'XmlDocument', do którego można uzyskać za pomocą metod DOM  - patrz https://www.w3.org/TR/domcore/
+            }
+            else 
+               window.alert('Wystąpił problem z tym żądaniem.');
+          }
+        } 
+        catch(e) {      
+          window.alert('Złapany wyjątek: ' + e.description);
+        } 
+     }
+    </script>
+  </head>
+  <body onLoad="request()">
+  </body>
+</html>

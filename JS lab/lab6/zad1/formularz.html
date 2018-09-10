@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8">
+    <title>
+      Formularz
+    </title>
+    <script>
+        /*****************************************************************/
+        /* Funkcja wykonuj�ca (asynchroniczne) zapytanie  do serwera WWW */
+        /*****************************************************************/
+        function zapytanie() {
+                var http_request;
+                http_request = new XMLHttpRequest(); //Utworzenie obiektu reprezentuj�cego zapytanie do serwera WWW
+                if (!http_request){
+                        window.alert('Nie mog� stworzy� instancji obiektu XMLHttpRequest');
+                        return;
+                }
+                if (http_request.overrideMimeType)
+                        http_request.overrideMimeType('text/xml'); //Nadpisanie nag��wka MIME
+
+                //Rejestracja funkcji, kt�ra b�dzie przetwarza� odpowied� otrzyman� od serwera
+                http_request.onreadystatechange = function() {
+                        odpowiedz(http_request);
+                }
+
+                //Wykonanie (asynchronicznego) zapytania do serwera WWW
+                http_request.open('POST', '/submit?imie='+ document.getElementById('imie').value, true);
+                http_request.send(null);
+        }
+
+        /***********************************************/
+        /* Funkcja przetwarzaj�ca odpowied� od serwera */
+        /***********************************************/
+        function odpowiedz(http_request){
+                try {
+                        if (http_request.readyState == XMLHttpRequest.DONE) { //Je�eli odpowied� jest gotowa
+                                if (http_request.status == 200){ //Je�eli ��danie by�o prawid�owe
+                                        var odebrane_dane = http_request.responseText; //Odbierz odpowied� jako tekst
+                                        window.alert(odebrane_dane); //i wy�wietl j�
+                                }
+                                else
+                                        window.alert('Wyst�pi� problem z tym ��daniem.');
+                        }
+                }
+                catch(e) {
+                        window.alert('Z�apany wyj�tek: ' + e.description);
+                }
+        }
+        /***********************************************/
+        //  Fetch api
+        /***********************************************/
+        function send_form(){
+            const myRequest = new Request(
+                    '/submit?imie='+ 
+                    document.getElementById('imie').value, 
+                    {method: 'POST'}
+                );
+            fetch(myRequest)
+                .then((response)=>{
+                    return response.text();
+                })
+                .then((text)=>{
+                    window.alert(text);
+                })
+        }
+
+    </script>
+  </head>
+  <body>
+    <main>
+      <form method="get"  action="/submit">
+			
+        <label>Wykonaj zapytanie do serwera WWW</label> 
+        Name:<input type="hidden" name="imie" value="Ola" id="imie">
+                
+				<input type="submit"
+              value="Bez uzycia AJAX"> <input type="button"
+              value="Z uzyciem AJAX"
+              onclick="send_form()">
+      </form>
+    </main>
+  </body>
+</html>

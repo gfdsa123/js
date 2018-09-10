@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+            'use strict';
+            const fs = require('fs');
+            const http = require('http');
+
+            http.createServer(
+                function (doc) {
+                    if (process.argv.length < 3) {
+                        doc.write('migginsdsfd');
+                    } else {
+                        var str = process.argv[2];
+                        var stats = fs.lstatSync(str);
+
+                        if (!stats.isDirectory() && !stats.isFile()) {
+                            doc.write('Given string is neither a file nor a directory.\n');
+                            //  console.log('Given directory/file does not exist.');
+                        } else if (stats.isDirectory()) {
+                            doc.write('Given string is a directory.\n');
+                            //  console.log('Directory exists.');
+                        } else if (stats.isFile()) {
+                            // console.log('File exists.');
+                            doc.write('Given string is a file.\n');
+                            var text = fs.readFileSync(str);
+                            doct.write(text.toString());
+                            //console.log(text.toString());
+                        }
+                    }
+                }).listen(1111);
+        </script>
+    </head>
+    
+    <body>
+        <script type="text/javascript">
+            main();
+        </script>
+        <div id="myDiv"></div>
+    </body>
+</html>
