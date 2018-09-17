@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Kolokwium</title>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="script.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    <body>
+        <form id="ajaxForm">
+            Enter file path:<br>
+            <input type="text" name="filePath" value="/etc/group"><br>
+            Enter line number:<br>
+            <input type="number" name="lineNumber" value="3"><br>
+            
+            <input id="postSubmitButton" type="button" value="POST Submit">
+            <input id="getSubmitButton" type="button" value="GET Submit">
+        </form>
+        
+        <p id='fileContent'></p>
+    </body>
+</html>
